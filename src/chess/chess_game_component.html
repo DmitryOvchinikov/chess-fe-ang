@@ -1,0 +1,31 @@
+<div class="chess-wrapper">
+  <div class="top-bar">
+    <div>Turn: {{ turn === 'w' ? 'White' : 'Black' }}</div>
+    <button (click)="initBoard()">Reset</button>
+  </div>
+
+  <div class="board">
+    @for (rank of board; track $index; let r = $index) {
+      <div class="rank">
+        @for (sq of rank; track $index; let f = $index) {
+          <div
+            class="square"
+            [class.light]="squareColor(r, f) === 'light'"
+            [class.dark]="squareColor(r, f) === 'dark'"
+            [class.selected]="isSelected(r, f)"
+            (click)="onSquareClick(r, f)"
+          >
+            <!-- Add an explicit class AND aria-hidden to ensure styling targets the glyph -->
+            <span class="piece" aria-hidden="true">{{ pieceChar(sq) }}</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="files">
+    @for (f of [0,1,2,3,4,5,6,7]; track f) {
+      <span>{{ String.fromCharCode(97 + f) }}</span>
+    }
+  </div>
+</div>

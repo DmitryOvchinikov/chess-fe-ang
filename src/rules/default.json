@@ -1,0 +1,106 @@
+{
+  "version": "1.0.0",
+  "pieces": {
+    "K": {
+      "name": "King",
+      "unicode": { "w": "♔", "b": "♚" },
+      "moves": [
+        { "type": "step", "vectors": [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]], "maxSteps": 1, "capture": "any", "blockedBy": "any" }
+      ],
+      "value": null,
+      "constraints": { "oneKingPerSide": true }
+    },
+    "Q": {
+      "name": "Queen",
+      "unicode": { "w": "♕", "b": "♛" },
+      "moves": [
+        { "type": "ray", "vectors": [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]], "maxSteps": 7, "capture": "any", "blockedBy": "any" }
+      ],
+      "value": 9
+    },
+    "R": {
+      "name": "Rook",
+      "unicode": { "w": "♖", "b": "♜" },
+      "moves": [
+        { "type": "ray", "vectors": [[1,0],[-1,0],[0,1],[0,-1]], "maxSteps": 7, "capture": "any", "blockedBy": "any" }
+      ],
+      "value": 5,
+      "castleEligible": true
+    },
+    "B": {
+      "name": "Bishop",
+      "unicode": { "w": "♗", "b": "♝" },
+      "moves": [
+        { "type": "ray", "vectors": [[1,1],[1,-1],[-1,1],[-1,-1]], "maxSteps": 7, "capture": "any", "blockedBy": "any" }
+      ],
+      "value": 3
+    },
+    "N": {
+      "name": "Knight",
+      "unicode": { "w": "♘", "b": "♞" },
+      "moves": [
+        { "type": "leap", "vectors": [[2,1],[2,-1],[-2,1],[-2,-1],[1,2],[1,-2],[-1,2],[-1,-2]], "capture": "any", "blockedBy": "none" }
+      ],
+      "value": 3
+    },
+    "P": {
+      "name": "Pawn",
+      "unicode": { "w": "♙", "b": "♟" },
+      "moves": [
+        { "type": "stepForward", "color": "w", "vector": [0,-1], "maxSteps": 1, "capture": "none", "blockedBy": "any" },
+        { "type": "stepForward", "color": "b", "vector": [0,1], "maxSteps": 1, "capture": "none", "blockedBy": "any" },
+        { "type": "doubleStepFromStart", "color": "w", "vector": [0,-2], "fromRank": 6 },
+        { "type": "doubleStepFromStart", "color": "b", "vector": [0,2], "fromRank": 1 },
+        { "type": "captureDiagonal", "color": "w", "vectors": [[-1,-1],[1,-1]] },
+        { "type": "captureDiagonal", "color": "b", "vectors": [[-1,1],[1,1]] },
+        { "type": "enPassant", "color": "w", "vectors": [[-1,-1],[1,-1]] },
+        { "type": "enPassant", "color": "b", "vectors": [[-1,1],[1,1]] }
+      ],
+      "promotion": {
+        "w": { "to": ["Q","R","B","N"], "onRank": 0 },
+        "b": { "to": ["Q","R","B","N"], "onRank": 7 }
+      },
+      "value": 1
+    }
+  },
+  "rules": {
+    "turns": { "start": "w", "alternate": true },
+    "checks": {
+      "kingMustNotBeInCheckAfterMove": true,
+      "cannotEndTurnInCheck": true,
+      "checkmateEndsGame": true,
+      "stalemateIsDraw": true
+    },
+    "castling": {
+      "allowed": true,
+      "sides": {
+        "kingSide": {
+          "kingFrom": { "w": [4,7], "b": [4,0] },
+          "kingTo":   { "w": [6,7], "b": [6,0] },
+          "rookFrom": { "w": [7,7], "b": [7,0] },
+          "rookTo":   { "w": [5,7], "b": [5,0] },
+          "squaresBetweenMustBeEmpty": true,
+          "kingMayNotPassThroughCheck": true,
+          "kingAndRookMustNotHaveMoved": true
+        },
+        "queenSide": {
+          "kingFrom": { "w": [4,7], "b": [4,0] },
+          "kingTo":   { "w": [2,7], "b": [2,0] },
+          "rookFrom": { "w": [0,7], "b": [0,0] },
+          "rookTo":   { "w": [3,7], "b": [3,0] },
+          "squaresBetweenMustBeEmpty": true,
+          "kingMayNotPassThroughCheck": true,
+          "kingAndRookMustNotHaveMoved": true
+        }
+      }
+    },
+    "enPassant": {
+      "allowed": true,
+      "captureOnlyImmediately": true
+    },
+    "fiftyMoveRule": true,
+    "threefoldRepetition": true,
+    "insufficientMaterialDraw": true,
+    "promotion": { "mustPromote": true, "default": "Q" }
+  }
+}
